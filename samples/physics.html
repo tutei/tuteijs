@@ -1,0 +1,37 @@
+<html> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+        <title>Physics</title> 
+        <script type="text/javascript" src="box2d/Box2d.min.js"></script>
+        <script type="text/javascript" src="kernel/Physics.js"></script>
+        
+        <script type="text/javascript" src="kernel/Settings.js"></script>
+        <script type="text/javascript" src="kernel/Time.js"></script>
+        <script type="text/javascript" src="kernel/Input.js"></script>
+        
+        <script type="text/javascript" src="kernel/Application.js"></script>
+        <script type="text/javascript" src="kernel/Utils.js"></script>
+        <script type="text/javascript" src="kernel/Script.js"></script>
+        <script type="text/javascript" src="kernel/Sound.js"></script>
+		
+          
+        <script type="text/javascript" src="kernel/GameObject.js"></script>        
+        
+        
+        
+        <script type="text/javascript" src="components/Sprite.js"></script> 
+		<script type="text/javascript" src="components/TileMap.js"></script>
+		<script type="text/javascript" src="components/ColliderTileMap.js"></script>
+        <script type="text/javascript" src="components/Collider.js"></script>
+
+        <script type="text/javascript" src="levels/PhysicsTest.js"></script>
+    </head> 
+    <body id="home"> 
+        <canvas id="canvas" width="600" height="400"></canvas>
+        <p>up=static,down=dynamic,space=set shape</p>
+
+        <script type="text/javascript">
+            Application.run('canvas','PhysicsTest');			
+        </script>	
+    </body> 
+</html>  			

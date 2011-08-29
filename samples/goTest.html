@@ -1,0 +1,58 @@
+<html> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+        <title>GameObject simple tests</title> 
+        <script type="text/javascript" src="box2d/Box2d.js"></script>
+        <script type="text/javascript" src="kernel/Physics.js"></script>
+        
+        <script type="text/javascript" src="kernel/Settings.js"></script>
+        <script type="text/javascript" src="kernel/Time.js"></script>
+        <script type="text/javascript" src="kernel/Input.js"></script>
+        
+        <script type="text/javascript" src="kernel/Application.js"></script>
+        <script type="text/javascript" src="kernel/Utils.js"></script>
+        <script type="text/javascript" src="kernel/Script.js"></script>
+        <script type="text/javascript" src="kernel/GameObject.js"></script>        
+        
+        
+        
+        
+        <script type="text/javascript" src="components/Collider.js"></script>
+
+        <script type="text/javascript">
+		function GOTest() {
+			this.name="GOTest";
+				
+			this.start=function(){
+				for(i=0;i<10;i++){
+					go=new GameObject();
+					
+					this.insertChild(go);
+					go.name="test"+i;
+					
+				}
+				console.log(this);
+			
+				
+				this.children[4].destroy();
+				this.children[0].destroy();
+				this.children[this.children.length-1].destroy();
+				this.destroy();
+			}
+				
+				
+			
+
+		}
+		GOTest.prototype = new GameObject;	
+		</script>
+    </head> 
+    <body id="home"> 
+        <canvas id="canvas" width="600" height="400"></canvas>
+        <p>up=static,down=dynamic,space=set shape</p>
+
+        <script type="text/javascript">
+            Application.run('canvas','GOTest');			
+        </script>	
+    </body> 
+</html>  			

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+    <head>
+        <title>Parallax</title>
+        <script type="text/javascript" src="kernel/Settings.js"></script>
+        <script type="text/javascript" src="kernel/Time.js"></script>
+        <script type="text/javascript" src="kernel/Input.js"></script>
+        <script type="text/javascript" src="kernel/Script.js"></script>
+        <script type="text/javascript" src="kernel/GameObject.js"></script>
+        <script type="text/javascript" src="kernel/Application.js"></script>
+
+        <script type="text/javascript" src="components/Parallax.js"></script>
+
+        <script type="text/javascript" src="levels/ParallaxTest.js"></script>
+    </head>
+    <body>
+        <div id="main-content">
+            <div class="draggable"  style="z-index:0;border:none;"> 
+                <h3>Parallax</h3> 
+                <div class="app-gadget">
+                    <canvas id="canvas">
+				Your browser doesn't support HTML5.
+                    </canvas>
+                    <p>z=repeatX on/off, space=repeatY on/off</p>
+
+                </div>
+		Images from: <a href="http://shinylittlething.com/2009/08/08/pygame-parallax-scrolling-in-2d-games/">http://shinylittlething.com/2009/08/08/pygame-parallax-scrolling-in-2d-games/</a>
+            </div>
+        </div>
+        <script type="text/javascript">
+            <!--
+            Application.run('canvas','ParallaxTest');
+            -->
+        </script>
+    </body>
+</html>

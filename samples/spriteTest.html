@@ -1,0 +1,91 @@
+<html> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+        <title>Sprite test</title> 
+		<script type="text/javascript" src="jquery/jquery-1.5.1.min.js"></script>
+        <script type="text/javascript" src="kernel/Settings.js"></script>
+        <script type="text/javascript" src="kernel/Time.js"></script>
+        <script type="text/javascript" src="kernel/Input.js"></script>
+
+        <script type="text/javascript" src="kernel/Application.js"></script>
+        <script type="text/javascript" src="kernel/Utils.js"></script>
+        <script type="text/javascript" src="kernel/Script.js"></script>
+        <script type="text/javascript" src="kernel/GameObject.js"></script>
+
+        <script type="text/javascript" src="components/TileMap.js"></script>
+        <script type="text/javascript" src="components/Sprite.js"></script>
+
+        <script type="text/javascript">
+            //Settings.FRAME_DELAY=20;
+            function SpriteTest() {
+				
+				this.loadData=function(data){
+				
+					this.tileObj=new GameObject();
+                    this.insertChild(this.tileObj);
+				
+					tileMap=data;
+                    this.tileObj.insertScript(new TileMap('res/tileset_final.png',tileMap));
+                    
+                    animation={down:[0,1,2],up:[6,7,8],right:[3,4,5],left:[9,10,11]};
+                    sprite=new Sprite('res/charsheet.png',animation,'down');
+                    sprite.update=function() {
+        
+                        if( Input.isKeyDown_down ){
+                            this.animPos='down';
+                            this.parent.y+=20*Time.deltaTime;
+                            if(this.parent.y>=Settings.tileHeight)
+                                this.parent.parent.tileObj.y-=200*Time.deltaTime;
+                        } else if(Input.isKeyDown_right){
+                            this.animPos='right'; 
+                            this.parent.x+=20*Time.deltaTime;
+                             if(this.parent.x>=Settings.tileWidth)
+                                this.parent.parent.tileObj.x-=200*Time.deltaTime;
+                        } else if( Input.isKeyDown_left ){
+                            this.animPos='left';
+                            this.parent.x-=20*Time.deltaTime;
+                            if(this.parent.x>=Settings.tileWidth)
+                                this.parent.parent.tileObj.x+=200*Time.deltaTime;
+                        } else if(Input.isKeyDown_up){
+                            this.animPos='up'; 
+                            this.parent.y-=20*Time.deltaTime;
+                            if(this.parent.y>=Settings.tileHeight)
+                                this.parent.parent.tileObj.y+=200*Time.deltaTime;
+                        } else {
+                            this.play=false;
+                            return;
+                        }
+						
+                        this.play=true;						
+						
+                    };
+                    spriteObj=new GameObject();                    
+                    this.insertChild(spriteObj);
+                    spriteObj.insertScript(sprite);
+				
+				
+				},
+				
+                this.start=function(){
+                   
+					
+					$.getJSON('server/maps/client/0_0', function(data) {
+					  //console.log(data);
+					  Application.currentLevel.loadData(data);
+					  
+					});
+					
+                    
+                }
+            }
+            SpriteTest.prototype = new GameObject;	
+        </script>
+    </head> 
+    <body id="home"> 
+        <canvas id="canvas" width="600" height="400"></canvas>
+        <p>up/right/down/left=control sprite</p>
+        <script type="text/javascript">
+            Application.run('canvas','SpriteTest');			
+        </script>	
+    </body> 
+</html>  			

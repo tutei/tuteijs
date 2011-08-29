@@ -1,0 +1,195 @@
+<html> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+        <title>GameObject simple tests</title> 
+        <script type="text/javascript" src="box2d/Box2d.min.js"></script>
+        <script type="text/javascript" src="kernel/Physics.js"></script>
+
+        <script type="text/javascript" src="kernel/Settings.js"></script>
+        <script type="text/javascript" src="kernel/Time.js"></script>
+        <script type="text/javascript" src="kernel/Input.js"></script>
+
+        <script type="text/javascript" src="kernel/Application.js"></script>
+        <script type="text/javascript" src="kernel/Utils.js"></script>
+        <script type="text/javascript" src="kernel/Script.js"></script>
+        <script type="text/javascript" src="kernel/GameObject.js"></script>        
+
+
+
+
+        <script type="text/javascript" src="components/Collider.js"></script>
+
+        <script type="text/javascript">
+            AsteroidsGame.prototype = new GameObject;
+            function AsteroidsGame() {
+                this.name="AsteroidsGame";
+				
+                this.start=function(){
+                    
+                    Settings.screenColor='#000';
+                    
+                    Physics.startDebug();
+                    Physics.world.SetGravity(new b2Vec2(0, 0));
+				                                
+                    
+                    
+                    
+                    this.asteroidsManager=new GameObject();
+                    this.asteroidsManager.start=function(){
+                        this.counter=0;
+                        this.lastCreate=Time.timeSinceLevelLoad;
+                        
+                        
+                        
+                    }
+                    this.asteroidsManager.update=function(){
+                        
+                        if(this.lastCreate+0.2<Time.timeSinceLevelLoad){
+                            this.counter++;
+                            this.lastCreate=Time.timeSinceLevelLoad;
+                            position=Math.round(Math.random()*3);
+                            switch(position){
+                                case 0:
+                                    this.insertChild(new Asteroid(Math.random()*Application.canvas.width,0));
+                                    break;
+                                case 1:
+                                    this.insertChild(new Asteroid(0,Math.random()*Application.canvas.height));
+                                    break;
+                                case 2:
+                                    this.insertChild(new Asteroid(Application.canvas.width,Math.random()*Application.canvas.height));
+
+                                    break;
+                                case 3:
+                                    this.insertChild(new Asteroid(Math.random()*Application.canvas.width,Application.canvas.height));
+                                    break;
+                                
+                            }
+                            
+                            
+                        }
+                    }
+					this.asteroidsManager.render=function(g){
+						g.font = "24pt Calibri";
+						g.fillStyle = "#ff0000"; // text color
+						g.fillText("Total Objects: "+this.counter, 50, 100);
+					}
+                    this.insertChild(this.asteroidsManager);
+                    
+                    
+			
+				
+
+                }
+                
+                
+                
+				
+				
+			
+
+            }
+            
+            
+            Bullet.prototype = new GameObject;
+            function Bullet(){
+                
+                this.start=function(){
+                    this.angle=this.parent.collider.body.GetAngle();
+                    this.x=this.parent.x+30*Math.sin(this.angle)*Time.deltaTime;
+                    this.y=this.parent.y+30*Math.cos(this.angle)*Time.deltaTime;
+                    
+                    collider=new Collider(10,10);
+                    this.insertScript(collider);
+                    collider.setIsTrigger(true);
+                    //collider.body.SetSleepingAllowed(false);
+                    
+                    
+                    
+                }
+                
+                this.update=function(){
+                    if(this.x<0 || this.y<0 ||
+                        this.x>=Application.canvas.width || 
+                        this.y>=Application.canvas.height ){
+                        this.destroy();
+                        //console.log('des');
+                        return;
+                    }
+                    velocity=500;
+                    this.collider.body.SetLinearVelocity(
+                    {x:velocity*Math.sin(this.angle)*Time.deltaTime,
+                        y:-velocity*Math.cos(this.angle)*Time.deltaTime}
+                );
+                    
+                }
+                
+                
+                
+                this.render = function(ctx) {
+
+                    ctx.save();
+                    ctx.fillStyle = '#fff';
+                    ctx.translate(this.x, this.y);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 5, 0, Math.PI * 2, true);
+                    ctx.fill();
+                    ctx.restore();
+                    
+                }
+                
+            }
+            
+            
+            Asteroid.prototype = new GameObject;
+            function Asteroid(x,y){
+                
+                this.start=function(){
+                    this.angle=Math.random()*Math.PI;
+                    this.name="asteroid";
+
+                    this.x=x;
+                    this.y=y;
+                    collider=new Collider(10,10);
+                    
+                    this.image = new Image();
+                    this.image.src='res/asteroid.png';
+                    
+                    
+                    this.insertScript(collider);
+                    //collider.setIsTrigger(true);
+                    collider.body.ApplyTorque(Utils.rangedRandom(-1, 1)*200);
+                    collider.body.SetSleepingAllowed(false);
+                    //collider.setIsTrigger(true);
+					
+					velocity=Utils.rangedRandom(400, 1000);
+                    this.collider.body.SetLinearVelocity(
+                    {x:velocity*Math.sin(this.angle)*Time.deltaTime,
+                        y:-velocity*Math.cos(this.angle)*Time.deltaTime});
+                    
+                    
+                    
+                }
+                
+                this.update=function(){
+                    if(this.x>=Application.canvas.width) this.collider.setPosition(30,this.collider.body.GetPosition().y*Settings.physicsScale);
+                    if(this.x<0) this.collider.setPosition(Application.canvas.width-30,this.collider.body.GetPosition().y*Settings.physicsScale);
+                    if(this.y>=Application.canvas.height) this.collider.setPosition(this.collider.body.GetPosition().x*Settings.physicsScale,30);
+                    if(this.y<0) this.collider.setPosition(this.collider.body.GetPosition().x*Settings.physicsScale,Application.canvas.height-30);
+
+                    
+                }
+                
+                                
+            }
+            
+        </script>
+    </head> 
+    <body id="home"> 
+        <canvas id="canvas" width="600" height="400"></canvas>
+        <p>up/down=move, left/right=rotate</p>
+
+        <script type="text/javascript">
+            Application.run('canvas','AsteroidsGame');
+        </script>	
+    </body> 
+</html>  			
