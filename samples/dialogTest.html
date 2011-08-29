@@ -20,20 +20,20 @@
         <script type="text/javascript">
             
 			
-			function DialogTest() {				
+            function DialogTest() {				
                 this.start=function(){				
                     text=['olá\npessoal','Este é apenas um teste','O script de dialog está quase\npronto!'];
-					d=new Dialog(text,'res/blossom.jpg');
+                    d=new Dialog(text,'res/blossom.jpg');
                     this.insertScript(d);
-					d.finalAction=function(){
-						Application.loadLevel('DialogTest2');
+                    d.finalAction=function(){
+                        Application.loadLevel('DialogTest2');
 					
-					}
+                    }
                 }
             }
             DialogTest.prototype = new GameObject;
 			
-			function DialogTest2() {				
+            function DialogTest2() {				
                 this.start=function(){				
                     text=['Outra fase'];
                     this.insertScript(new Dialog(text));

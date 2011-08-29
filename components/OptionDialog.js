@@ -5,10 +5,12 @@
  */
 
 
-OptionDialog=function(text,image, background){
+OptionDialog=function(text,image, background,fontSize){
     
     if(typeof(background) != 'undefined')
         this.background=background;
+    
+    
         
     
     if(typeof(image) != 'undefined'){
@@ -20,7 +22,7 @@ OptionDialog=function(text,image, background){
         this.image.complete=false;
     }
 
-    this.updateRate=Application.FPS/20;
+    this.updateRate=0.05;
     this.nextUpdate = this.updateRate;
     
     this.height=Application.canvas.height/3;
@@ -33,7 +35,10 @@ OptionDialog=function(text,image, background){
     this.text=text;
     this.position=0;
     this.option=0;
-    this.stringHeight=24;
+    if(typeof(fontSize) == 'undefined')
+        fontSize=24;
+    
+    this.stringHeight=fontSize;
     
     this.finished=false;
     this.finalAction=function(){};
@@ -43,8 +48,7 @@ OptionDialog=function(text,image, background){
      * @return
      */
     this.update=function() {
-        this.updateRate=Application.FPS/20;
-        this.nextUpdate--;
+        this.nextUpdate-=Time.deltaTime;
 
         if (this.nextUpdate>0) return 0;
 
