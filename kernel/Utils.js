@@ -1,5 +1,10 @@
 //function to get random number from range
 var Utils = {
+	endsWith:function(str, suffix) {
+		return str.indexOf(suffix, str.length - suffix.length) !== -1;
+	},
+
+
     rangedRandom:function(min,max,toFloat)
     {
         var rand = min+(Math.random()*(max-min));
