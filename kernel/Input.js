@@ -37,7 +37,7 @@ var Input = {
             Input.mousePosition.y = e.layerY;
 			
             Input.mousePosition.x -= Application.canvas.offsetLeft;
-            Input.mousePosition.y -= Application.canvas.offsetTop-Settings.tileHeight*1.5;
+            Input.mousePosition.y -= Application.canvas.offsetTop;
         }
     },
 	
